@@ -1,0 +1,71 @@
+<template>
+  <div class="page" data-name="home">
+    <div class="tabs tabs-routable">
+      <div class="tab page-content" id="view-beranda"></div>
+      <div class="tab page-content" id="view-transaksi"></div>
+      <div class="tab page-content" id="view-tentang"></div>
+    </div>
+    <div class="panel panel-left panel-floating">
+      <div class="view">
+        <div class="page">
+          <div class="page-content">
+            <div class="row grid grid-cols-3" style="margin-top: 15px;">
+              <a href="/datafilm/" class="text-align-center font16 text-color-black panel-close" data-view=".view-main">
+                <img src="../assets/images/librera.png" class="besar-icon80" /><br />Film
+              </a>
+              <a href="#" class="text-align-center font16 text-color-black">
+                <img src="../assets/images/settings7.png" class="besar-icon80" /><br />Atur
+              </a>
+              <a href="#" class="text-align-center font16 text-color-black">
+                <img src="../assets/images/mix.png" class="besar-icon80" /><br />Logout
+              </a>
+            </div>
+
+            <div class="row grid grid-cols-3" style="margin-top: 15px;">
+              <a href="#" class="text-align-center font16 text-color-black">
+                <img src="../assets/images/ingresso_com.png" class="besar-icon80" /><br />Info
+              </a>
+              <a href="/uang/" class="text-align-center font16 text-color-black panel-close" data-view=".view-main">
+                <img src="../assets/images/phonto.png" class="besar-icon80" /><br />Keuangan
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="toolbar tabbar toolbar-bottom tabbar-icons">
+      <div class="toolbar-inner">
+        <div class="toolbar-pane">
+          <a href="/" class="tab-link tab-link-active" data-route-tabId="view-beranda">
+            <i class="icon f7-icons">square_list</i>
+            <span class="tabbar-label">Beranda</span>
+          </a>
+          <a href="/transaksi/" class="tab-link" data-route-tabId="view-transaksi">
+            <i class="icon f7-icons">money_dollar<span class="badge color-red">5</span></i>
+            <span class="tabbar-label">Transaksi</span>
+          </a>
+
+          <a href="/tentang/" class="tab-link" data-route-tabId="view-tentang">
+            <i class="icon f7-icons">info</i>
+            <span class="tabbar-label">Tentang</span>
+          </a>
+          <a href="javascript:void(0)" id="btn-senter" class="tab-link">
+            <i class="icon f7-icons">light_max</i>
+            <span class="tabbar-label">Senter</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  import * as fungsi from '../js/function.js';
+  export default (props, { $, $on }) => {
+    $on('pageInit', () => {
+      $("#btn-senter").off('click').on('click', function () {
+        fungsi.senter();
+      });
+    })
+    return $render;
+  }
+</script>

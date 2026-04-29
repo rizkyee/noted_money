@@ -1,0 +1,14 @@
+<template>
+  <div class="page warna_dasar_sistem" data-name="transaksi">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner warna_dasar_sistem">
+        <div class="title sliding text-color-white">Tentang Aplikasi</div>
+      </div>
+    </div>
+    <div class="page-content">
+      <img class="gambar_tengah" src="../assets/images/notedmoney.png" style="margin-top: 50px;" />
+      <p class="text-color-white ml-15 mr-15" style="text-align: justify;">Aplikasi Noted Money adalah Aplikasi untuk skenario praktikum matakuliah Pemrograman Aplikasi Bergerak atau Pemrograman Berbasis Lintas Platform</p>
+    </div>
+  </div>
+</template>

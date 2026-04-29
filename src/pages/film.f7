@@ -1,0 +1,39 @@
+<template>
+    <div class="page" data-name="film">
+        <div class="navbar">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner warna_dasar_sistem">
+                <div class="title sliding text-color-white">Daftar Film</div>
+                <div class="right">
+                    <a href="#" class="link back icon-only text-color-white">
+                        <i class="icon f7-icons">xmark</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="page-content">
+            <div class="row grid grid-cols-2" id="blokfilm" style="margin-top: 10px;"></div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import * as fungsi from '../js/function.js';
+
+    export default (props, { $, $on, $f7 }) => {
+        $on('pageInit', () => {
+            $("#blokfilm").html(fungsi.tampil_film());
+            $(".ke_detail").on('click', function () {
+                let judul = $(this).data("judul");
+                let pemain = $(this).data("pemain");
+                let tahun = $(this).data("tahun");
+                let rating = $(this).data("rating");
+                let sinopsis = $(this).data("sinopsis");
+                let sampul = $(this).data("sampul");
+                $f7.views.main.router.navigate(`/detailfilm/?judul=${judul}&pemain=${pemain}&tahun=${tahun}&rating=${rating}&sinopsis=${sinopsis}&sampul=${sampul}`);
+            });
+        });
+
+        return $render;
+    }
+</script>

@@ -1,0 +1,43 @@
+<template>
+    <div class="page" data-name="detail_film" style="background: white">
+        <div class="navbar" style="background-color: transparent;">
+            <div class="navbar-inner">
+                <div class="right">
+                    <a href="#" class="link back icon-only text-color-white">
+                        <i class="icon f7-icons">xmark</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="page-content">
+            <img id="detail_sampul" style="width: 100%; margin-top: -85px;" /><br />
+            <p class="card-content-padding font18" id="detail_data" style="text-align: justify; margin-top: -10px;"></p>
+        </div>
+        <div class="fab fab-right-bottom">
+            <a id="tts-fab">
+                <i class="icon f7-icons">speaker_3</i>
+            </a>
+        </div>
+    </div>
+</template>
+
+<script>
+    import * as fungsi from '../js/function.js';
+
+    export default (props, { $, $on, $f7 }) => {
+        $on('pageInit', () => {
+            let dtx = $f7.views.main.router.currentRoute.query;
+            $("#detail_sampul").attr("src", dtx.sampul);
+            let isi_detail = `<b>Judul</b>:<br>${dtx.judul}<br>
+      <b>Sinopsis</b>:<br>${dtx.sinopsis}<br>
+      <b>Aktor</b>:<br>${dtx.pemain}<br>
+      <b>Tahun Rilis</b>:<br>${dtx.tahun}<br>
+      <b>Rating</b>:<br>${dtx.rating}<br>`;
+            $("#detail_data").html(isi_detail);
+            $("#tts-fab").off('click').on('click', function () {
+                fungsi.ubah_suara(dtx.sinopsis);
+            });
+        });
+        return $render;
+    }
+</script>

@@ -1,0 +1,104 @@
+<template>
+    <div class="page" data-name="keuangan">
+        <div class="navbar">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner warna_dasar_sistem">
+                <div class="title sliding text-color-white">Daftar Transaksi</div>
+                <div class="right">
+                    <a href="#" class="link back icon-only text-color-white">
+                        <i class="icon f7-icons">xmark</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="fab fab-right-bottom">
+            <a href="/uangt/" class="text-color-white" style="background-color: #34495e;"><i
+                    class="icon f7-icons">plus</i></a>
+        </div>
+        <div class="card card-outline warna_dasar_putih" style="margin: 90px 7px 10px 7px;">
+            <div class="card-content card-content-padding">
+                <div class="grid grid-cols-2 grid-gap font18">
+                    <div>Uraian</div>
+                    <div class="text-align-right">Nominal</div>
+                </div>
+            </div>
+        </div>
+        <div class="page-content" style="margin-top: -65px;">
+            <div class="card card-outline warna_dasar_putih" style="margin: 0px 7px 10px 7px;">
+                <div class="card-content card-content-padding">
+                    <div class="list list-outline-ios list-strong-ios list-dividers-ios no-chevron">
+                        <ul id="transaksi_blok"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    import * as fungsi from '../js/function.js';
+
+    export default (props, { $, $on, $f7 }) => {
+
+        const riwayat_transaksi = () => {
+            let baca = db
+                .transaction(["transaksi"], "readonly")
+                .objectStore("transaksi")
+                .index("tgl_jam")
+                .openCursor(null, "prev");
+
+            baca.onsuccess = function (event) {
+                let item = event.target.result;
+
+                if (item) {
+                    let dtx, icon, angka, warnatulisan;
+
+                    let id = item.value.id;
+                    let tgljam = item.value.tgl_jam;
+                    let nominal = item.value.nominal;
+                    let jenis = item.value.jenis;
+                    let uraian = item.value.uraian;
+
+                    if (jenis == "+") {
+                        icon = "tray_arrow_down";
+                        angka = fungsi.format_ribuan(nominal);
+                        warnatulisan = "warna_tulisan_hijau";
+                    } else {
+                        icon = "tray_arrow_up";
+                        angka = "-" + fungsi.format_ribuan(nominal);
+                        warnatulisan = "warna_tulisan_merah";
+                    }
+
+                    dtx = `<li>
+                        <a class="item-link item-content">
+                            <div class="item-media ${warnatulisan}">
+                                <i class="icon f7-icons">${icon}</i>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">
+                                    ${uraian}
+                                    <div class="item-footer">${fungsi.terjemah_tgl_jam(tgljam)}</div>
+                                </div>
+                                <div class="item-after">${angka}</div>
+                            </div>
+                        </a>
+                    </li>`;
+
+                    $("#transaksi_blok").append(dtx);
+                    item.continue();
+                }
+            };
+
+            baca.onerror = function (event) {
+                $("#transaksi_blok").html("");
+                $f7.dialog.alert(`Transaksi Gagal Dibaca. Error: ${event.target.errorCode}`, "Error");
+            };
+        };
+
+        $on('pageAfterIn', () => {
+            $("#transaksi_blok").html("");
+            riwayat_transaksi();
+        });
+
+        return $render;
+    }
+</script>

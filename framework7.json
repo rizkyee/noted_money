@@ -1,0 +1,30 @@
+{
+  "cwd": "D:\\project-devlopments\\mobile\\noted_money",
+  "type": [
+    "cordova"
+  ],
+  "name": "Noted Money",
+  "pkg": "com.unwaha.noted_money",
+  "framework": "core",
+  "template": "blank",
+  "bundler": "vite",
+  "cssPreProcessor": false,
+  "cordova": {
+    "folder": "cordova",
+    "platforms": [
+      "android"
+    ],
+    "plugins": [
+      "cordova-plugin-statusbar",
+      "cordova-plugin-keyboard",
+      "cordova-plugin-splashscreen"
+    ]
+  },
+  "theming": {
+    "customColor": false,
+    "color": "#007aff",
+    "darkMode": false,
+    "iconFonts": true
+  },
+  "customBuild": false
+}
