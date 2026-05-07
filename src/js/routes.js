@@ -6,6 +6,7 @@ import dFilm from "../pages/detail_film.f7";
 import Home from "../pages/home.f7";
 import Keuangan from "../pages/keuangan.f7";
 import KeuanganTambah from "../pages/keuangan_tambah.f7";
+import KeuanganUpdate from "../pages/keuangan_update.f7";
 
 var routes = [
   {
@@ -21,6 +22,7 @@ var routes = [
   { path: "/detailfilm/", component: dFilm },
   { path: "/uang/", component: Keuangan },
   { path: "/uangt/", component: KeuanganTambah },
+  { path: "/uangu/", component: KeuanganUpdate },
 
 ];
 
