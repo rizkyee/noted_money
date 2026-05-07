@@ -1,0 +1,164 @@
+<template>
+    <div class="page" data-name="keuangan_tambah">
+        <div class="navbar">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner warna_dasar_sistem">
+                <div class="title sliding text-color-white">Transaksi Update</div>
+                <div class="right">
+                    <a href="#" class="link back icon-only text-color-white">
+                        <i class="icon f7-icons">xmark</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="page-content">
+            <div class="card card-outline warna_dasar_putih">
+                <div class="card-header">Form Transaksi</div>
+                <div class="card-content card-content-padding">
+                    <div class="list list-strong-ios list-dividers-ios inset-ios" style="margin-bottom: 10px;">
+                        <input type="hidden" id="txtid" />
+                        <ul>
+                            <li class="item-content item-input item-input-outline">
+                                <div class="item-media"><i class="icon f7-icons">calendar</i></div>
+                                <div class="item-inner">
+                                    <div class="item-title item-label">Tanggal</div>
+                                    <div class="item-input-wrap">
+                                        <input type="datetime-local" id="txttgljam" class="formtransaksi"
+                                            placeholder="Tanggal Jam Transaksi" />
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="item-content item-input item-input-outline">
+                                <div class="item-media"><i class="icon f7-icons">number</i></div>
+                                <div class="item-inner">
+                                    <div class="item-title item-label">Nominal</div>
+                                    <div class="item-input-wrap">
+                                        <input type="number" id="txtnominal" class="formtransaksi"
+                                            placeholder="Nominal Uang" />
+                                        <span class="input-clear-button"></span>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="item-content item-input item-input-outline">
+                                <div class="item-media"><i class="icon f7-icons">tag</i></div>
+                                <div class="item-inner">
+                                    <div class="item-title item-label">Jenis Transaksi</div>
+                                    <div class="item-input-wrap">
+                                        <select id="cbjenis" class="formtransaksi">
+                                            <option value="">Pilih Salah Satu</option>
+                                            <option value="+">Pemasukan</option>
+                                            <option value="-">Pengeluaran</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="item-content item-input item-input-outline">
+                                <div class="item-media"><i class="icon f7-icons">textformat_abc</i></div>
+                                <div class="item-inner">
+                                    <div class="item-title item-label">Uraian</div>
+                                    <div class="item-input-wrap">
+                                        <textarea id="txturaian" class="formtransaksi"
+                                            placeholder="Uraian Transaksi"></textarea>
+                                        <span class="input-clear-button"></span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="grid grid-cols-2 grid-gap">
+                        <button type="button" id="transaksi_btnupdate" class="button button-fill color-blue"
+                            @click="${update_transaksi}">
+                            Update
+                        </button>
+
+                        <button type="button" id="transaksi_btnhapus" class="button button-fill color-red"
+                            @click="${hapus_transaksi}">
+                            Hapus
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default (props, { $, $on, $f7 }) => {
+
+        // --- FUNGSI UPDATE ---
+        const update_transaksi = () => {
+            let id = $("#txtid").val();
+            let tgljam = $("#txttgljam").val();
+            let nominal = $("#txtnominal").val();
+            let jenis = $("#cbjenis").val(); // Pastikan ID sesuai dengan HTML (cbjenis)
+            let uraian = $("#txturaian").val();
+
+            if (id == "" || tgljam == "" || nominal == "" || jenis == "" || uraian == "") {
+                $f7.dialog.alert("Ada Isian yang Masih Kosong", "Error");
+                return;
+            }
+
+            if (parseInt(nominal) <= 0) {
+                $f7.dialog.alert("Isian Nominal Invalid", "Error");
+                return;
+            }
+
+            let jam = tgljam.replace("T", " ") + ":00";
+            let data = { id: id, tgl_jam: jam, nominal: nominal, jenis: jenis, uraian: uraian };
+
+            let proses = db.transaction(["transaksi"], "readwrite").objectStore("transaksi").put(data);
+
+            proses.onsuccess = function (event) {
+                $f7.dialog.alert("Update Transaksi Berhasil", "Sukses");
+                $f7.views.main.router.back();
+            };
+
+            proses.onerror = function (event) {
+                $f7.dialog.alert(`Update Transaksi Gagal Dilakukan. Error: ${event.target.errorCode}`, "Error");
+            };
+        };
+
+        // --- FUNGSI HAPUS ---
+        const hapus_transaksi = () => {
+            let id = $("#txtid").val();
+
+            if (id == "") {
+                $f7.dialog.alert("Ada Isian yang Masih Kosong", "Error");
+                return;
+            }
+
+            $f7.dialog.confirm("Anda Yakin Ingin Menghapus Data Ini ?", "Konfirmasi", function () {
+                let proses = db.transaction(["transaksi"], "readwrite").objectStore("transaksi").delete(String(id));
+
+                proses.onsuccess = function (event) {
+                    $f7.dialog.alert("Hapus Transaksi Berhasil", "Sukses");
+                    $f7.views.main.router.back();
+                };
+
+                proses.onerror = function (event) {
+                    $f7.dialog.alert(`Hapus Transaksi Gagal Dilakukan. Error: ${event.target.errorCode}`, "Error");
+                };
+            });
+        };
+
+        // --- INIT HALAMAN ---
+        $on('pageInit', () => {
+            let dtx = $f7.views.main.router.currentRoute.query;
+
+            $("#txtid").val(dtx.id);
+            $("#txttgljam").val(dtx.tgljam);
+            $("#txtnominal").val(dtx.nominal);
+            $("#cbjenis").val(dtx.jenis).change(); // Sesuaikan ID ke cbjenis
+            $("#txturaian").val(dtx.uraian);
+        });
+
+        // Kembalikan fungsi agar bisa digunakan di <template>
+        return $render;
+    }
+</script>

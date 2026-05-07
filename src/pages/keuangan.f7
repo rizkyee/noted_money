@@ -68,20 +68,21 @@
                         warnatulisan = "warna_tulisan_merah";
                     }
 
+                    
                     dtx = `<li>
-                        <a class="item-link item-content">
-                            <div class="item-media ${warnatulisan}">
-                                <i class="icon f7-icons">${icon}</i>
-                            </div>
-                            <div class="item-inner">
-                                <div class="item-title">
-                                    ${uraian}
-                                    <div class="item-footer">${fungsi.terjemah_tgl_jam(tgljam)}</div>
-                                </div>
-                                <div class="item-after">${angka}</div>
-                            </div>
-                        </a>
-                    </li>`;
+                <a href="/uangu/?id=${id}&tgljam=${tgljam}&nominal=${nominal}&jenis=${jenis}&uraian=${uraian}" class="item-link item-content">
+                    <div class="item-media ${warnatulisan}">
+                        <i class="icon f7-icons">${icon}</i>
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-title">
+                            ${uraian}
+                            <div class="item-footer">${fungsi.terjemah_tgl_jam(tgljam)}</div>
+                        </div>
+                        <div class="item-after">${angka}</div>
+                    </div>
+                </a>
+            </li>`;
 
                     $("#transaksi_blok").append(dtx);
                     item.continue();
@@ -93,7 +94,6 @@
                 $f7.dialog.alert(`Transaksi Gagal Dibaca. Error: ${event.target.errorCode}`, "Error");
             };
         };
-
         $on('pageAfterIn', () => {
             $("#transaksi_blok").html("");
             riwayat_transaksi();
