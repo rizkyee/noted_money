@@ -11,82 +11,464 @@
         </div>
       </div>
     </div>
+
     <div class="page-content">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-        <path fill=" #34495e" fill-opacity="1"
-          d="M0,160L60,181.3C120,203,240,245,360,245.3C480,245,600,203,720,197.3C840,192,960,224,1080,234.7C1200,245,1320,235,1380,229.3L1440,224L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z">
-        </path>
+        <path
+          fill="#34495e"
+          fill-opacity="1"
+          d="M0,160L60,181.3C120,203,240,245,360,245.3C480,245,600,203,720,197.3C840,192,960,224,1080,234.7C1200,245,1320,235,1380,229.3L1440,224L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"
+        ></path>
       </svg>
-      <div class="card" style="margin-top:  -585px;">
+
+      <div class="card" style="margin-top:-585px;">
         <div class="card-content card-content-padding text-align-center">
-          <font class="font22" id="bloktglskr">Senin, 02 Maret 2025<br />05:04:33</font>
-          <div class="row grid grid-cols-5 grid-gap" style="margin-top: 15px;">
+          <font class="font22" id="bloktglskr">
+            Senin, 02 Maret 2025<br />05:04:33
+          </font>
+
+          <div class="row grid grid-cols-5 grid-gap" style="margin-top:15px;">
             <a href="#" id="btnmap">
               <img src="../assets/images/gmaps.png" class="besar-icon100" />
             </a>
+
             <a href="#" id="btnfb">
               <img src="../assets/images/facebook.png" class="besar-icon100" />
             </a>
+
             <a href="#" id="btnig">
               <img src="../assets/images/instagram.png" class="besar-icon100" />
             </a>
+
             <a href="#" id="btnwa">
               <img src="../assets/images/whatsapp.png" class="besar-icon100" />
             </a>
+
             <a href="#" id="btntw">
               <img src="../assets/images/twitter.png" class="besar-icon100" />
             </a>
           </div>
         </div>
       </div>
-      <swiper-container pagination class="demo-swiper-multiple ml-15 mr-15 color-white" space-between="50"
-        data-loop="true" autoplay>
-        <swiper-slide class="radius15 text-color-white" style="background: #b71c1c; height: 150px;"></swiper-slide>
-        <swiper-slide class="radius15 text-color-white" style="background: #01579b; height: 150px;"></swiper-slide>
-        <swiper-slide class="radius15 text-color-white" style="background: #880e4f; height: 150px;"></swiper-slide>
-        <swiper-slide class="radius15 text-color-white" style="background: #006064; height: 150px;"></swiper-slide>
-        <swiper-slide class="radius15 text-color-white" style="background: #ff6f00; height: 150px;"></swiper-slide>
+
+      <swiper-container
+        pagination
+        class="demo-swiper-multiple ml-15 mr-15 color-white"
+        space-between="50"
+        data-loop="true"
+        autoplay
+      >
+        <swiper-slide
+          class="radius15 text-color-white"
+          style="background:#b71c1c; height:150px;"
+        ></swiper-slide>
+
+        <swiper-slide
+          class="radius15 text-color-white"
+          style="background:#01579b; height:150px;"
+        ></swiper-slide>
+
+        <swiper-slide
+          class="radius15 text-color-white"
+          style="background:#880e4f; height:150px;"
+        ></swiper-slide>
+
+        <swiper-slide
+          class="radius15 text-color-white"
+          style="background:#006064; height:150px;"
+        ></swiper-slide>
+
+        <swiper-slide
+          class="radius15 text-color-white"
+          style="background:#ff6f00; height:150px;"
+        ></swiper-slide>
       </swiper-container>
-      <div class="row grid grid-cols-2" style="margin-top: 10px;">
+
+      <div class="row grid grid-cols-2" style="margin-top:10px;">
         <a href="#" class="text-align-center font18 text-color-black">
           <div class="card text-align-center">
             <div class="card-content card-content-padding">
-              <img src="../assets/images/whatd_you_spend.png" class="besar-icon80" /><br />Transaksi<br />Keuangan
+              <img src="../assets/images/whatd_you_spend.png" class="besar-icon80" />
+              <br />
+              Transaksi<br />Keuangan
             </div>
           </div>
         </a>
-        <a href="#" class="text-align-center font18 text-color-black">
+
+        <a
+          href="#"
+          id="btnsinkrondata"
+          @click=${buka_menu_sinkron}
+          class="text-align-center font18 text-color-black"
+        >
           <div class="card text-align-center">
             <div class="card-content card-content-padding">
-              <img src="../assets/images/sidesync.png" class="besar-icon80" /><br />Sinkron<br />Data
+              <img src="../assets/images/sidesync.png" class="besar-icon80" />
+              <br />
+              Sinkron<br />Data
             </div>
           </div>
         </a>
       </div>
     </div>
+
+    <!-- Sheet Menu Sinkronisasi Data -->
+    <div
+      class="sheet-modal"
+      id="sheet-menu-sinkron"
+      style="height:auto; --f7-sheet-bg-color:transparent;"
+    >
+      <div class="sheet-modal-inner">
+        <div
+          class="block"
+          style="background:#fff; border-radius:22px 22px 0 0; margin:0; padding:24px 22px 30px;"
+        >
+          <div
+            class="font22 text-color-gray"
+            style="font-weight:600; margin-bottom:20px;"
+          >
+            Menu Pilihan
+          </div>
+
+          <div class="row grid grid-cols-3 text-align-center">
+            <a
+              href="#"
+              id="menu_backup"
+              @click=${buka_sheet_backup}
+              class="text-color-black"
+            >
+              <div
+                style="width:76px; height:76px; border-radius:50%; background:#1296f3; margin:auto; display:flex; align-items:center; justify-content:center;"
+              >
+                <i class="f7-icons text-color-white" style="font-size:40px;">
+                  arrow_up
+                </i>
+              </div>
+              <div style="margin-top:10px; font-size:14px;">
+                Backup
+              </div>
+            </a>
+
+            <a
+              href="#"
+              id="menu_restore"
+              @click=${info_restore}
+              class="text-color-black"
+            >
+              <div
+                style="width:76px; height:76px; border-radius:50%; background:#1296f3; margin:auto; display:flex; align-items:center; justify-content:center;"
+              >
+                <i class="f7-icons text-color-white" style="font-size:40px;">
+                  arrow_down
+                </i>
+              </div>
+              <div style="margin-top:10px; font-size:14px;">
+                Restore
+              </div>
+            </a>
+
+            <a
+              href="#"
+              id="menu_hapus"
+              @click=${info_hapus}
+              class="text-color-black"
+            >
+              <div
+                style="width:76px; height:76px; border-radius:50%; background:#d71920; margin:auto; display:flex; align-items:center; justify-content:center;"
+              >
+                <i class="f7-icons text-color-white" style="font-size:40px;">
+                  trash
+                </i>
+              </div>
+              <div style="margin-top:10px; font-size:14px;">
+                Hapus
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sheet Backup Online -->
+    <div
+      class="sheet-modal"
+      id="sheet-backup"
+      style="height:auto; --f7-sheet-bg-color:transparent;"
+    >
+      <div class="sheet-modal-inner">
+        <div
+          class="block"
+          style="background:#fff; border-radius:22px 22px 0 0; margin:0; padding:24px 22px 30px;"
+        >
+          <div
+            class="font22 text-color-gray"
+            style="font-weight:600; margin-bottom:20px;"
+          >
+            Backup Online
+          </div>
+
+          <div class="list no-hairlines-md" style="margin:0;">
+            <ul>
+              <li class="item-content item-input item-input-outline">
+                <div class="item-media">
+                  <i class="f7-icons">book</i>
+                </div>
+
+                <div class="item-inner">
+                  <div class="item-title item-floating-label">
+                    Nama Backup
+                  </div>
+
+                  <div class="item-input-wrap">
+                    <input
+                      type="text"
+                      id="txtnamabackup"
+                      placeholder="Isi Nama Backup"
+                    />
+                  </div>
+                </div>
+              </li>
+
+              <li class="item-content item-input item-input-outline">
+                <div class="item-media">
+                  <i class="f7-icons">book</i>
+                </div>
+
+                <div class="item-inner">
+                  <div class="item-title item-floating-label">
+                    Channel Backup
+                  </div>
+
+                  <div class="item-input-wrap">
+                    <select id="cbochannelbackup">
+                      <option value="laravel" selected>Laravel</option>
+                      <option value="nodejs">NodeJS</option>
+                    </select>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="row grid grid-cols-2 grid-gap" style="margin-top:18px;">
+            <a
+              href="#"
+              id="backup_btnsimpan"
+              @click=${backup_transaksi}
+              class="button button-fill"
+              style="background:#3f6f9f;"
+            >
+              Backup
+            </a>
+
+            <a
+              href="#"
+              id="backup_btnreset"
+              @click=${reset_form_backup}
+              class="button button-fill"
+              style="background:#9f4d43;"
+            >
+              Reset
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
+
 <script>
-  import * as fungsi from '../js/function.js';
-  export default (props, { $, $on }) => {
+import * as fungsi from '../js/function.js';
 
-    let timer_tgljam;
+export default (props, { $, $f7, $on }) => {
+  let timer_tgljam;
+  let sheetMenuSinkron = null;
+  let sheetBackup = null;
 
-    fungsi.konfigurasidb();
+  fungsi.konfigurasidb();
 
-    const mulai_tgljam = () => {
-      timer_tgljam = setInterval(() => {
-        if ($("#bloktglskr").length > 0) {
-          $("#bloktglskr").html(fungsi.waktu_sekarang());
-        }
-      }, 1000);
-    };
+  const mulai_tgljam = () => {
+    timer_tgljam = setInterval(() => {
+      if ($("#bloktglskr").length > 0) {
+        $("#bloktglskr").html(fungsi.waktu_sekarang());
+      }
+    }, 1000);
+  };
+
+  setTimeout(() => {
+    mulai_tgljam();
+  }, 500);
+
+  const get_sheet_menu_sinkron = () => {
+    if (!sheetMenuSinkron) {
+      sheetMenuSinkron = $f7.sheet.create({
+        el: "#sheet-menu-sinkron",
+        backdrop: true,
+        closeByBackdropClick: true,
+        swipeToClose: true
+      });
+    }
+
+    return sheetMenuSinkron;
+  };
+
+  const get_sheet_backup = () => {
+    if (!sheetBackup) {
+      sheetBackup = $f7.sheet.create({
+        el: "#sheet-backup",
+        backdrop: true,
+        closeByBackdropClick: true,
+        swipeToClose: true
+      });
+    }
+
+    return sheetBackup;
+  };
+
+  const buka_menu_sinkron = (e) => {
+    e.preventDefault();
+    console.log("Tombol Sinkron Data diklik");
+    get_sheet_menu_sinkron().open();
+  };
+
+  const buka_sheet_backup = (e) => {
+    e.preventDefault();
+    console.log("Menu Backup diklik");
+
+    get_sheet_menu_sinkron().close();
+
     setTimeout(() => {
-      mulai_tgljam();
-    }, 500);
-    $on('pageBeforeRemove', () => {
-      clearInterval(timer_tgljam);
-    });
-    return $render;
-  }
+      get_sheet_backup().open();
+    }, 300);
+  };
+
+  const info_restore = (e) => {
+    e.preventDefault();
+    get_sheet_menu_sinkron().close();
+    $f7.dialog.alert("Menu Restore akan dibuat pada praktikum berikutnya", "Info");
+  };
+
+  const info_hapus = (e) => {
+    e.preventDefault();
+    get_sheet_menu_sinkron().close();
+    $f7.dialog.alert("Menu Hapus akan dibuat pada praktikum berikutnya", "Info");
+  };
+
+  const reset_form_backup = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
+
+    $("#txtnamabackup").val("");
+    $("#cbochannelbackup").val("laravel").change();
+  };
+
+  const encode_base64 = (text) => {
+    return btoa(unescape(encodeURIComponent(text)));
+  };
+
+  const backup_transaksi = async (e) => {
+    if (e) {
+      e.preventDefault();
+    }
+
+    let nama = ($("#txtnamabackup").val() || "").trim();
+    let channel = $("#cbochannelbackup").val();
+
+    if (nama == "") {
+      $f7.dialog.alert("Isian Nama Backup Tidak Tersedia", "Error");
+      return;
+    }
+
+    $f7.dialog.progress("Proses Backup ......");
+
+    try {
+      let dttransaksi = await fungsi.getDataFull("transaksi");
+
+      if (dttransaksi.length <= 0) {
+        $f7.dialog.close();
+        $f7.dialog.alert("Data Transaksi Yang akan di Backup Tidak Tersedia", "Info");
+        return;
+      }
+
+      let dtx = "";
+
+      for (let x of dttransaksi) {
+        let id = x.id;
+        let deskripsi = x.uraian;
+        let waktu = x.tgl_jam;
+        let nominal = x.nominal;
+        let jenis = x.jenis;
+
+        dtx += `${id}|${deskripsi}|${waktu}|${nominal}|${jenis}#`;
+      }
+
+      let url = channel == "laravel"
+        ? "https://apilav13.co-id.id/api/backup"
+        : "http://127.0.0.1:5775/api/backup";
+
+      let response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          nama_backup: nama,
+          dtx: encode_base64(dtx.slice(0, -1))
+        })
+      });
+
+      let data = {};
+
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        data = {};
+      }
+
+      $f7.dialog.close();
+
+      if (!response.ok) {
+        $f7.dialog.alert(
+          data.status || `HTTP error! status: ${response.status}`,
+          "Error"
+        );
+        return;
+      }
+
+      if (data.kode == "01") {
+        $f7.dialog.alert(
+          `${data.status} Berhasil: ${data.berhasil}, Gagal: ${data.gagal}`,
+          "Berhasil"
+        );
+
+        reset_form_backup();
+        get_sheet_backup().close();
+      } else {
+        $f7.dialog.alert(data.status || "Proses backup gagal", "Error");
+      }
+
+    } catch (error) {
+      console.error("Backup error:", error);
+      $f7.dialog.close();
+      $f7.dialog.alert("Terjadi kesalahan pada server atau database belum siap", "Error");
+    }
+  };
+
+  $on("pageBeforeRemove", () => {
+    clearInterval(timer_tgljam);
+
+    if (sheetMenuSinkron) {
+      sheetMenuSinkron.destroy();
+      sheetMenuSinkron = null;
+    }
+
+    if (sheetBackup) {
+      sheetBackup.destroy();
+      sheetBackup = null;
+    }
+  });
+
+  return $render;
+};
 </script>

@@ -1,3 +1,5 @@
+let db;
+
 const HARI_INDONESIA = [
   "Minggu",
   "Senin",
@@ -7,6 +9,7 @@ const HARI_INDONESIA = [
   "Jumat",
   "Sabtu",
 ];
+
 const BULAN_INDONESIA = [
   "Januari",
   "Februari",
@@ -22,11 +25,9 @@ const BULAN_INDONESIA = [
   "Desember",
 ];
 
-
-
-// Tambahkan fungsi ini karena dipanggil di beranda.f7
 export function waktu_sekarang() {
   const sekarang = new Date();
+
   const hari = HARI_INDONESIA[sekarang.getDay()];
   const tanggal = sekarang.getDate().toString().padStart(2, "0");
   const bulan = BULAN_INDONESIA[sekarang.getMonth()];
@@ -36,13 +37,105 @@ export function waktu_sekarang() {
   const menit = sekarang.getMinutes().toString().padStart(2, "0");
   const detik = sekarang.getSeconds().toString().padStart(2, "0");
 
-  // Mengembalikan format HTML langsung
   return `${hari}, ${tanggal} ${bulan} ${tahun}<br />${jam}:${menit}:${detik}`;
+}
+
+export function konfigurasidb() {
+  return new Promise((resolve, reject) => {
+    if (db) {
+      resolve(db);
+      return;
+    }
+
+    if (!window.indexedDB) {
+      reject("Browser tidak mendukung IndexedDB");
+      return;
+    }
+
+    let request = window.indexedDB.open("dbkeuangan", 1);
+
+    request.onupgradeneeded = function (e) {
+      db = e.target.result;
+
+      if (!db.objectStoreNames.contains("transaksi")) {
+        let tbl = db.createObjectStore("transaksi", { keyPath: "id" });
+
+        tbl.createIndex("tgl_jam", "tgl_jam", { unique: false });
+        tbl.createIndex("nominal", "nominal", { unique: false });
+        tbl.createIndex("jenis", "jenis", { unique: false });
+        tbl.createIndex("uraian", "uraian", { unique: false });
+      }
+    };
+
+    request.onerror = function (event) {
+      console.error(`Database error: ${event.target.errorCode}`);
+      reject(event.target.errorCode);
+    };
+
+    request.onsuccess = function (event) {
+      db = event.target.result;
+      console.log("Database IndexedDB berhasil dibuka");
+      resolve(db);
+    };
+  });
+}
+
+export async function getDataFull(tabel) {
+  if (!db) {
+    await konfigurasidb();
+  }
+
+  return new Promise((resolve, reject) => {
+    try {
+      let proses = db
+        .transaction([tabel], "readonly")
+        .objectStore(tabel)
+        .getAll();
+
+      proses.onsuccess = function (e) {
+        let allData = e.target.result;
+
+        if (Array.isArray(allData)) {
+          resolve(allData);
+        } else {
+          typeof allData === "object" && allData !== null
+            ? resolve([allData])
+            : resolve([]);
+        }
+      };
+
+      proses.onerror = function (e) {
+        console.error(`Gagal: Data ${tabel}, ${e.target.errorCode}`);
+        reject([]);
+      };
+
+    } catch (error) {
+      console.error("getDataFull error:", error);
+      reject([]);
+    }
+  });
+}
+
+export function terjemah_tgl_jam(x) {
+  let z = x.split(" ");
+  let tglfull = z[0].split("-");
+
+  let tgl = tglfull[2];
+  let bulan = parseInt(tglfull[1]) - 1;
+  let tahun = tglfull[0];
+  let jam = z[1];
+
+  return `${tgl} ${BULAN_INDONESIA[bulan]} ${tahun} ${jam}`;
+}
+
+export function format_ribuan(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
 export function tampil_film() {
   let hasil = "";
   let x;
+
   for (x of datafilm) {
     let judul = x.judul;
     let pemain = x.pemain;
@@ -50,6 +143,7 @@ export function tampil_film() {
     let rating = x.rating;
     let sinopsis = x.sinopsis;
     let sampul = x.cover;
+
     hasil += `<div class="card" style="background-color: transparent;">
       <div class="card-content">
         <img src="${sampul}" data-judul="${judul}" data-pemain="${pemain}" data-tahun="${tahun}"
@@ -58,15 +152,20 @@ export function tampil_film() {
       </div>
     </div>`;
   }
+
   return hasil;
 }
 
 export function ubah_suara(data) {
-  TTS.speak(data, function () {
-    console.log("Text to Speech Berhasil");
-  }, function (reason) {
-    append.dialog.alert(reason, "error");
-  })
+  TTS.speak(
+    data,
+    function () {
+      console.log("Text to Speech Berhasil");
+    },
+    function (reason) {
+      console.error(reason);
+    }
+  );
 }
 
 export function senter() {
@@ -78,50 +177,7 @@ export function senter() {
         window.plugins.flashlight.switchOn();
       }
     } else {
-      append.dialog.alert("LED Tidak Ada", "error");
+      console.error("LED Tidak Ada");
     }
-  })
-}
-
-
-export function konfigurasidb() {
-  if (window.indexedDB) {
-    let request = window.indexedDB.open("dbkeuangan", 1,);
-
-    request.onupgradeneeded = function (e) {
-      db = e.target.result;
-      if (!db.objectStoreNames.contains("transaksi")) {
-        let tbl = db.createObjectStore("transaksi", { keyPath: 'id' });
-        tbl.createIndex("tgl_jam", "tgl_jam", { unique: false });
-        tbl.createIndex("nominal", "nominal", { unique: false });
-        tbl.createIndex("jenis", "jenis", { unique: false });
-        tbl.createIndex("uraian", "uraian", { unique: false });
-      }
-    };
-
-    request.onerror = event => {
-      app.dialog.alert(`Database error: ${event.target.errorCode}`, "Error");
-    };
-
-    request.onsuccess = event => {
-      db = event.target.result;
-    };
-  }
-}
-
-
-export function terjemah_tgl_jam(x){
-    let z = x.split(" ");
-    let tglfull = z[0].split("-");
-    let tgl = tglfull[2];
-    let buln = tglfull[1];
-    let tahun = tglfull[0];
-    let jam = z[1];
-    return `${tgl} ${BULAN_INDONESIA[parseInt(buln)]} ${tahun} ${jam}`;
-}
-
-
-
-export function format_ribuan(x){
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  });
 }
